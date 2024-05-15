@@ -378,8 +378,13 @@ namespace HospitalGests.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MedicineId"));
+
                     b.Property<DateTime?>("DueDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<int>("IdPrescription")
+                        .HasColumnType("int");
 
                     b.Property<string>("MedicineName")
                         .IsRequired()
@@ -521,6 +526,14 @@ namespace HospitalGests.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<byte[]>("PasswordHash")
+                        .IsRequired()
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<byte[]>("PasswordSalt")
+                        .IsRequired()
+                        .HasColumnType("varbinary(max)");
+
                     b.Property<int?>("PatientId")
                         .HasColumnType("int");
 
@@ -584,8 +597,6 @@ namespace HospitalGests.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdPrescription"));
-
                     b.Property<DateOnly>("Dateissue")
                         .HasColumnType("date");
 
@@ -598,6 +609,9 @@ namespace HospitalGests.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("MedicalRecordId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MedicineId")
                         .HasColumnType("int");
 
                     b.Property<string>("State")
@@ -946,19 +960,11 @@ namespace HospitalGests.Migrations
 
             modelBuilder.Entity("HospitalGests.Model.Medicines", b =>
                 {
-                    b.HasOne("HospitalGests.Model.Prescriptions", "Prescriptions")
-                        .WithOne("Medicines")
-                        .HasForeignKey("HospitalGests.Model.Medicines", "MedicineId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
                     b.HasOne("HospitalGests.Model.Treatments", "Treatment")
                         .WithMany()
                         .HasForeignKey("TreatmentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Prescriptions");
 
                     b.Navigation("Treatment");
                 });
@@ -1045,6 +1051,12 @@ namespace HospitalGests.Migrations
 
             modelBuilder.Entity("HospitalGests.Model.Prescriptions", b =>
                 {
+                    b.HasOne("HospitalGests.Model.Medicines", "Medicines")
+                        .WithOne("Prescriptions")
+                        .HasForeignKey("HospitalGests.Model.Prescriptions", "IdPrescription")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
                     b.HasOne("HospitalGests.Model.MedicalRecords", "MedicalRecords")
                         .WithMany()
                         .HasForeignKey("MedicalRecordId")
@@ -1052,6 +1064,8 @@ namespace HospitalGests.Migrations
                         .IsRequired();
 
                     b.Navigation("MedicalRecords");
+
+                    b.Navigation("Medicines");
                 });
 
             modelBuilder.Entity("HospitalGests.Model.Reminder", b =>
@@ -1123,16 +1137,16 @@ namespace HospitalGests.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("HospitalGests.Model.Medicines", b =>
+                {
+                    b.Navigation("Prescriptions");
+                });
+
             modelBuilder.Entity("HospitalGests.Model.Persons", b =>
                 {
                     b.Navigation("Patient");
 
                     b.Navigation("ResponsibleFamilyMember");
-                });
-
-            modelBuilder.Entity("HospitalGests.Model.Prescriptions", b =>
-                {
-                    b.Navigation("Medicines");
                 });
 
             modelBuilder.Entity("HospitalGests.Model.Rooms", b =>

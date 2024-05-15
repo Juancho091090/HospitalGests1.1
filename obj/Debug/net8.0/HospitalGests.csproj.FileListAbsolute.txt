@@ -270,3 +270,4 @@ C:\Users\Juancarlos.sotomende\source\repos\HospitalGests1.1\obj\Debug\net8.0\ref
 C:\Users\Juancarlos.sotomende\source\repos\HospitalGests1.1\obj\Debug\net8.0\HospitalGests.pdb
 C:\Users\Juancarlos.sotomende\source\repos\HospitalGests1.1\obj\Debug\net8.0\HospitalGests.genruntimeconfig.cache
 C:\Users\Juancarlos.sotomende\source\repos\HospitalGests1.1\obj\Debug\net8.0\ref\HospitalGests.dll
+C:\Users\Juancarlos.sotomende\source\repos\HospitalGests1.1\obj\Debug\net8.0\HospitalGests.sourcelink.json

@@ -2721,6 +2721,11 @@
     "Order": 0,
     "Parameters": [
       {
+        "Name": "idPerson",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
         "Name": "typeDocument",
         "Type": "System.String",
         "IsRequired": false
@@ -2955,6 +2960,48 @@
         "StatusCode": 200
       }
     ]
+  },
+  {
+    "ContainingType": "HospitalGests.Controllers.PersonController",
+    "Method": "Login",
+    "RelativePath": "api/Person/login",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userNumber",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "password",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HospitalGests.Controllers.PersonController",
+    "Method": "Register",
+    "RelativePath": "api/Person/register",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "person",
+        "Type": "HospitalGests.Model.Persons",
+        "IsRequired": true
+      },
+      {
+        "Name": "password",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
   },
   {
     "ContainingType": "HospitalGests.Controllers.PharmacyController",

@@ -32,16 +32,33 @@ namespace HospitalGests.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Persons>> CreatePersons(string typeDocument, int document, string firstName, string secondName, string lastName, string secondLastName, string bloodType, DateTime birthDate, string direcction, string emailAddress, string phoneNumber, int patientId, int doctorId, int responsibleFamilyMemberId)
+        public async Task<ActionResult<Persons>> CreatePersons(int idPerson, string typeDocument, int document, string firstName, string secondName, string lastName, string secondLastName, string bloodType, DateTime birthDate, string direcction, string emailAddress, string phoneNumber, int patientId, int doctorId, int responsibleFamilyMemberId, byte[] passwordHash, byte[] passwordSalt)
         {
-            var persons = await _personService.CreatePerson(typeDocument, document, firstName, secondName, lastName, secondLastName, bloodType, birthDate, direcction, emailAddress, phoneNumber, patientId, doctorId, responsibleFamilyMemberId);
+            var persons = await _personService.CreatePerson(idPerson, typeDocument, document, firstName, secondName, lastName, secondLastName, bloodType, birthDate, direcction, emailAddress, phoneNumber, patientId, doctorId, responsibleFamilyMemberId, passwordHash, passwordSalt);
             if (persons == null)
             {
                 return BadRequest("Persons cannot be created");
             }
             return Ok(persons);
         }
+        [HttpPost("register")]
+        public async Task<IActionResult> Register(Persons person, string password)
+        {
+            // Crear la persona con la contraseña
+            var createdPerson = await _personService.CreatePerson(person, password);
+            return Ok(createdPerson);
+        }
+        [HttpPost("login")]
+        public async Task<IActionResult> Login(string userNumber, string password)
+        {
+            // Autenticar al usuario
+            var isAuthenticated = await _personService.Authenticate(userNumber, password);
 
+            if (!isAuthenticated)
+                return Unauthorized();
+
+            return Ok("Login successful");
+        }
         [HttpPut("{idPerson}")]
         public async Task<ActionResult<Persons>> UpdatePersons(int idPerson, int patientId, int doctorId, int responsibleFamilyMemberId, string? typeDocument = null, int? document = null, string? firstName = null, string? secondName = null, string? lastName = null, string? secondLastName = null, string? bloodType = null, DateTime? birthDate = null, string? direcction = null, string? emailAddress = null, string? phoneNumber = null)
         {

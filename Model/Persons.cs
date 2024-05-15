@@ -28,6 +28,8 @@ namespace HospitalGests.Model
         public ResponsibleFamilyMember? ResponsibleFamilyMember { get; set; }
         public int? DoctorId { get; set; }
         public Doctor? Doctor { get; set; }
+        public required byte[] PasswordHash { get; set; }
+        public required byte[] PasswordSalt { get; set; }
     }
     
 }
